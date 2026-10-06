@@ -29,4 +29,19 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatutReservation statut;
+
+    // Reservation -> Vehicule : ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "vehicule_id", referencedColumnName = "idVehicule", nullable = false)
+    private Vehicule vehicule;
+
+    // Reservation -> Client : ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client_id", referencedColumnName = "idClient", nullable = false)
+    private Client client;
+
+    // Reservation -> Contrat : OneToOne (côté inverse)
+    @OneToOne(mappedBy = "reservation", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private Contrat contrat;
 }
